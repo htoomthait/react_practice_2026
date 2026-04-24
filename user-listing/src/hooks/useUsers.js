@@ -49,10 +49,32 @@ export default function useUsers() {
 
     }
 
+
+    // Delete User
+    const deleteUser = async (id) => {
+        try{
+            setError(null);
+
+            const response = await fetch(`${API_URL}/${id}`, {
+                method: "DELETE"
+            });
+
+            if(!response.ok){
+                throw new Error("Fail to delete user");
+            }
+
+            setUsers((prevUsers) => prevUsers.filter((user) => user.id !== id));
+
+
+        }catch(err){
+            setError(err.message);
+        }
+    }
+
     useEffect(() => {
             fetchUsers();
         }, []);
 
-    return { users, loading, error, fetchUsers, addUser };
+    return { users, loading, error, fetchUsers, addUser, deleteUser };
 
 }

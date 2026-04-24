@@ -3,7 +3,7 @@ import useUsers from '../hooks/useUsers'
 import { useState } from 'react'
 
 const UsersPage = () => {
-  const { users, loading, error, fetchUsers, addUser } = useUsers();
+  const { users, loading, error, fetchUsers, addUser, deleteUser } = useUsers();
   const [newUser, setNewUser] = useState({ name: '', email: '' });
 
   const handleInputChange = (e) => {
