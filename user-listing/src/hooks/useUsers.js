@@ -27,6 +27,7 @@ export default function useUsers() {
 
     // create new user
     const addUser = async (user) => {
+        setLoading(true);
         try {
             const response = await fetch(API_URL, {
                 method: 'POST',
@@ -42,11 +43,51 @@ export default function useUsers() {
             setUsers((prevUsers) => [...prevUsers, newUser]);
         } catch (err) {
             setError(err.message);
+        }finally {
+            setLoading(false);
         }
+
 
 
         
 
+    }
+
+    // Update User
+
+    const updateUser = async (id, updateduser) => {
+        try {
+            setError(null);
+            setLoading(true);
+
+            
+
+            const response =  await fetch(`${API_URL}/${id}`, {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(updateduser)
+            })
+
+            if(!response.ok){
+                throw new Error("Fail to update user");
+            }
+
+            const data = await response.json();
+
+            setUsers((prevUsers) =>
+                prevUsers.map((user) =>
+                    user.id === id ? { ...user, ...data } : user
+                )
+            );
+
+
+        } catch (err) {
+            setError(err.message);
+        }finally {
+            setLoading(false);
+        }
     }
 
 
@@ -54,6 +95,7 @@ export default function useUsers() {
     const deleteUser = async (id) => {
         try{
             setError(null);
+            setLoading(true);
 
             const response = await fetch(`${API_URL}/${id}`, {
                 method: "DELETE"
@@ -68,13 +110,24 @@ export default function useUsers() {
 
         }catch(err){
             setError(err.message);
+        }finally {
+            setLoading(false);
         }
+
     }
 
     useEffect(() => {
             fetchUsers();
         }, []);
 
-    return { users, loading, error, fetchUsers, addUser, deleteUser };
+    return { 
+        users, 
+        loading, 
+        error, 
+        fetchUsers, 
+        addUser, 
+        deleteUser,
+        updateUser 
+    };
 
 }
