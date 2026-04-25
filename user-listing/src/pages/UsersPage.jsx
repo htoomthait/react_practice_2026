@@ -8,13 +8,13 @@ const UsersPage = () => {
   const { users, loading, error, fetchUsers, addUser, deleteUser, updateUser } = useUsers();
 
   // New user state for the form
-  const [newUser, setNewUser] = useState({ name: '', email: '' });
+  const [newUser, setNewUser] = useState({ fullname: '', email: '' });
 
   const [showForm, setShowForm] = useState(false);
 
   const [editingId, setEditingId] = useState(null);
   const [editUser, setEditUser] = useState({
-    name: "",
+    fullname: "",
     email: ""
   });
 
@@ -24,29 +24,35 @@ const UsersPage = () => {
   };
 
   const handleAddUser = () => {
+    newUser.phoneNumber = "123-456-7890"; // Add a default phone number
+    newUser.address = "123 Main St, Anytown, USA"; // Add a default address
+    newUser.dob = "1990-01-01"; // Add a default date of birth
+
     addUser(newUser);
-    setNewUser({ name: '', email: '' });
+    setNewUser({ fullname: '', email: '' });
     setShowForm(false);
   };
 
   const handleEditButtonClick = (user) => {
     console.log('Editing user:', user);
     setEditingId(user.id);
-    setNewUser({ name: user.name, email: user.email });
+    setNewUser({ fullname: user.fullname, email: user.email });
     setShowForm(true);
   }
 
   const handleUpdateUser = (id) => {
-
+    newUser.phoneNumber = "123-456-7890"; // Add a default phone number
+    newUser.address = "123 Main St, Anytown, USA"; // Add a default address
+    newUser.dob = "1990-01-01"; // Add a default date of birth
     updateUser(id, newUser);
     setEditingId(null);
-    setNewUser({ name: '', email: '' });
+    setNewUser({ fullname: '', email: '' });
   }
 
   const handleShowForm = () => {
     setShowForm(!showForm);
     setEditingId(null);
-    setNewUser({ name: '', email: '' });
+    setNewUser({ fullname: '', email: '' });
   }
 
 
@@ -75,9 +81,9 @@ const UsersPage = () => {
           <div className="grid md:grid-cols-3 gap-4 p-4 bg-gray-50 rounded-xl border">
             <input
               type="text"
-              name="name"
-              placeholder="Enter Name"
-              value={newUser.name}
+              name="fullname"
+              placeholder="Enter Full Name"
+              value={newUser.fullname}
               onChange={handleInputChange}
               className="border rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-400 outline-none"
             />
@@ -136,7 +142,7 @@ const UsersPage = () => {
                     } hover:bg-blue-50`}
                 >
                   <td className="px-4 py-3">{user.id}</td>
-                  <td className="px-4 py-3 font-medium">{user.name}</td>
+                  <td className="px-4 py-3 font-medium">{user.fullname}</td>
                   <td className="px-4 py-3 text-gray-600">{user.email}</td>
 
                   <td className="px-4 py-3 text-center">

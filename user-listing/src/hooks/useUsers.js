@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
 
 
-const API_URL = 'https://jsonplaceholder.typicode.com/users';
+// const API_URL = 'https://jsonplaceholder.typicode.com/users';
+const API_URL = 'http://localhost:5400/users';
 
 export default function useUsers() {
     const [users, setUsers] = useState([]);
@@ -17,7 +18,7 @@ export default function useUsers() {
                 throw new Error('Failed to fetch users');
             }
             const data = await response.json();
-            setUsers(data);
+            setUsers(data.data);
         } catch (err) {
             setError(err.message);
         } finally {
@@ -39,8 +40,11 @@ export default function useUsers() {
             if (!response.ok) {
                 throw new Error('Failed to create user');
             }
-            const newUser = await response.json();
-            setUsers((prevUsers) => [...prevUsers, newUser]);
+            // const newUser = await response.json();
+            // console.log('New user created:', newUser.data);
+            // setUsers((prevUsers) => [...prevUsers, newUser.data]);
+
+            fetchUsers(); // Refresh the user list after adding a new user
         } catch (err) {
             setError(err.message);
         }finally {
@@ -78,7 +82,7 @@ export default function useUsers() {
 
             setUsers((prevUsers) =>
                 prevUsers.map((user) =>
-                    user.id === id ? { ...user, ...data } : user
+                    user.id === id ? { ...user, ...data.data } : user
                 )
             );
 
