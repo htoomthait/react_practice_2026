@@ -53,7 +53,7 @@ const LoginPage = () => {
                         <div className="flex flex-col gap-2">
                             <label
                                 htmlFor="email"
-                                className="text-sm font-medium text-gray-700"
+                                className="text-sm font-medium text-gray-700 px-2 text-left"
                             >
                                 Email
                             </label>
@@ -70,7 +70,7 @@ const LoginPage = () => {
                         <div className="flex flex-col gap-2">
                             <label
                                 htmlFor="password"
-                                className="text-sm font-medium text-gray-700"
+                                className="text-sm font-medium text-gray-700 text-left px-2"
                             >
                                 Password
                             </label>

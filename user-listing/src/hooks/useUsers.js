@@ -15,8 +15,7 @@ export default function useUsers() {
 
     // Fetch users from the API 
     const fetchUsers = async () => {
-        console.log('Fetching users from API...');
-        console.log('API URL:', API_URL);
+        
         setLoading(true);
         setError(null);
         try {
@@ -72,11 +71,13 @@ export default function useUsers() {
 
             const data = await response.data.data;
 
-            setUsers((prevUsers) =>
-                prevUsers.map((user) =>
-                    user.id === id ? { ...user, ...data } : user
-                )
-            );
+            // setUsers((prevUsers) =>
+            //     prevUsers.map((user) =>
+            //         user.id === id ? { ...user, ...data } : user
+            //     )
+            // );
+
+            fetchUsers(); // Refresh the user list after updating a user
 
 
         } catch (err) {

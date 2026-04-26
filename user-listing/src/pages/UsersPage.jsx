@@ -40,7 +40,7 @@ const UsersPage = () => {
   };
 
   const handleEditButtonClick = (user) => {
-    console.log('Editing user:', user);
+    // console.log('Editing user:', user);
     setEditingId(user.id);
     setNewUser({ fullname: user.fullname, email: user.email });
     setShowForm(true);
@@ -71,25 +71,29 @@ const UsersPage = () => {
           User Management
         </h1>
 
-        <button
-          onClick={fetchUsers}
-          className="mr-2 bg-blue-600 text-white px-5 py-2 rounded-lg hover:bg-blue-700 transition"
-        >
-          Reload Users
-        </button>
-        <button
-          onClick={handleShowForm}
-          className="bg-blue-600 text-white px-5 py-2 rounded-lg hover:bg-blue-700 transition"
-        >
-          {showForm ? "Hide Form" : "Show Form"}
-        </button>
+        <div className="flex justify-end mb-4">
+          <button
+            onClick={fetchUsers}
+            className="mr-2 bg-blue-600 text-white px-5 py-2 rounded-lg hover:bg-blue-700 transition"
+          >
+            Reload Users
+          </button>
+          <button
+            onClick={handleShowForm}
+            className="bg-blue-600 text-white px-5 py-2 rounded-lg hover:bg-blue-700 transition"
+          >
+            {showForm ? "Hide Form" : "Show Form"}
+          </button>
 
-        <button
-          onClick={logout}
-          className="ml-2 bg-blue-600 text-white px-5 py-2 rounded-lg hover:bg-blue-700 transition"
-        >
-          Logout
-        </button>
+          <button
+            onClick={logout}
+            className="ml-2 bg-blue-600 text-white px-5 py-2 rounded-lg hover:bg-blue-700 transition"
+          >
+            Logout
+          </button>
+        </div>
+
+
         {/* Form */}
         <div
           className={`mt-4 overflow-hidden transition-all duration-700 ease-in-out ${showForm
