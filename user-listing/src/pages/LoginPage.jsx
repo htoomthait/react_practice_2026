@@ -1,12 +1,14 @@
 import React from 'react'
 import { useState } from 'react'
 import api from '../api/config';
+import { useAuth } from '../context/AuthContext';
 
 
 const LoginPage = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
+    const { login } = useAuth();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -17,13 +19,12 @@ const LoginPage = () => {
         };
 
         const response = await api.post('/auth/login', loginPayload);
-        console.log('Login response:', response);
 
         if (response.status === 200) {
             const { accessToken, refreshToken, userId } = response.data.data;
-            localStorage.setItem('accessToken', accessToken);
-            localStorage.setItem('refreshToken', refreshToken);
-            localStorage.setItem('userId', userId);
+            login(accessToken, refreshToken, userId);
+
+
             setError('');
 
             // Redirect to users page or show success message

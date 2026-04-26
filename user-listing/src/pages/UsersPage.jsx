@@ -1,11 +1,15 @@
 import React, { use } from 'react'
 import useUsers from '../hooks/useUsers'
 import { useState } from 'react'
+import { useAuth } from '../context/AuthContext';
 
 const UsersPage = () => {
 
   // Get users and related functions from the custom hook
   const { users, loading, error, fetchUsers, addUser, deleteUser, updateUser } = useUsers();
+
+  // Get logout function from AuthContext
+  const { logout } = useAuth();
 
   // New user state for the form
   const [newUser, setNewUser] = useState({ fullname: '', email: '' });
@@ -68,10 +72,23 @@ const UsersPage = () => {
         </h1>
 
         <button
+          onClick={fetchUsers}
+          className="mr-2 bg-blue-600 text-white px-5 py-2 rounded-lg hover:bg-blue-700 transition"
+        >
+          Reload Users
+        </button>
+        <button
           onClick={handleShowForm}
           className="bg-blue-600 text-white px-5 py-2 rounded-lg hover:bg-blue-700 transition"
         >
           {showForm ? "Hide Form" : "Show Form"}
+        </button>
+
+        <button
+          onClick={logout}
+          className="ml-2 bg-blue-600 text-white px-5 py-2 rounded-lg hover:bg-blue-700 transition"
+        >
+          Logout
         </button>
         {/* Form */}
         <div
