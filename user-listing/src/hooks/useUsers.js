@@ -1,8 +1,11 @@
 import { useState, useEffect } from 'react';
+import api from '../api/config';
+
 
 
 // const API_URL = 'https://jsonplaceholder.typicode.com/users';
-const API_URL = 'http://localhost:5400/users';
+const API_BASE_URL = import.meta.env.REACT_APP_API_BASE_URL || 'http://localhost:5400';
+const API_URL = `${API_BASE_URL}/users`;
 
 export default function useUsers() {
     const [users, setUsers] = useState([]);
@@ -12,13 +15,13 @@ export default function useUsers() {
 
     // Fetch users from the API 
     const fetchUsers = async () => {
+        console.log('Fetching users from API...');
+        console.log('API URL:', API_URL);
+        setLoading(true);
+        setError(null);
         try {
-            const response = await fetch(API_URL);
-            if (!response.ok) {
-                throw new Error('Failed to fetch users');
-            }
-            const data = await response.json();
-            setUsers(data.data);
+            const response = await api.get('/users');
+            setUsers(response.data.data);
         } catch (err) {
             setError(err.message);
         } finally {
@@ -30,14 +33,8 @@ export default function useUsers() {
     const addUser = async (user) => {
         setLoading(true);
         try {
-            const response = await fetch(API_URL, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(user),
-            });
-            if (!response.ok) {
+            const response = await api.post(API_URL, user);
+            if (!response.status === 201) {
                 throw new Error('Failed to create user');
             }
             // const newUser = await response.json();
@@ -66,23 +63,18 @@ export default function useUsers() {
 
             
 
-            const response =  await fetch(`${API_URL}/${id}`, {
-                method: "PUT",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify(updateduser)
-            })
+            const response =  await api.put(`${API_URL}/${id}`, updateduser);
+            
 
-            if(!response.ok){
+            if(!response.status === 200){
                 throw new Error("Fail to update user");
             }
 
-            const data = await response.json();
+            const data = await response.data.data;
 
             setUsers((prevUsers) =>
                 prevUsers.map((user) =>
-                    user.id === id ? { ...user, ...data.data } : user
+                    user.id === id ? { ...user, ...data } : user
                 )
             );
 
@@ -101,11 +93,9 @@ export default function useUsers() {
             setError(null);
             setLoading(true);
 
-            const response = await fetch(`${API_URL}/${id}`, {
-                method: "DELETE"
-            });
+            const response = await api.delete(`${API_URL}/${id}`);
 
-            if(!response.ok){
+            if(!response.status === 200){
                 throw new Error("Fail to delete user");
             }
 

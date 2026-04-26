@@ -27,6 +27,8 @@ const UsersPage = () => {
     newUser.phoneNumber = "123-456-7890"; // Add a default phone number
     newUser.address = "123 Main St, Anytown, USA"; // Add a default address
     newUser.dob = "1990-01-01"; // Add a default date of birth
+    newUser.role = "USER"; // Add a default role
+    newUser.password = "abcabc123"; // Add a default password
 
     addUser(newUser);
     setNewUser({ fullname: '', email: '' });
